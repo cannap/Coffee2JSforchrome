@@ -11,8 +11,8 @@ grunt debug
 grunt build
 
 ###Credits:
-https://github.com/yeoman/generator-chrome-extension
-http://coffeescript.org/
-http://prismjs.com/
-http://jquery.com/
+- https://github.com/yeoman/generator-chrome-extension
+- http://coffeescript.org/
+- http://prismjs.com/
+- http://jquery.com/
 
