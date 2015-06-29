@@ -5,7 +5,6 @@ var coffee2js = {};
 //Init
 coffee2js.init = function () {
   $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary tojs">Show JS</a>');
-
 };
 
 coffee2js.compileAndShow = function () {
