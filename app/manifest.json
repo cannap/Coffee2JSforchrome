@@ -19,7 +19,8 @@
   "content_scripts": [
     {
       "matches": [
-        "*://github.com/*"
+        "*://github.com/*",
+        "*://gist.github.com/*"
       ],
       "js": [
         "scripts/jquery.js",

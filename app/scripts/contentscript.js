@@ -1,11 +1,26 @@
 'use strict';
 //file wide
 var compileTo;
+
+var isGist = false;
+
+
 var compilr = {};
 
 
 compilr.init = function () {
-  $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary compile">Compile to: ' + compileTo + '</a>');
+
+
+  var buttonstyle;
+  var action;
+
+  /*  action = '.actions .button-group'
+   buttonstyle = 'minibutton'*/
+
+  action = '.file-actions .btn-group'
+  buttonstyle = 'btn'
+  $(action).append('<a href="#" class="' + buttonstyle + ' btn-sm btn-primary compile">Compile to: ' + compileTo + '</a>');
+
 };
 
 compilr.compileAndShow = function () {
@@ -31,6 +46,8 @@ compilr.compileAndShow = function () {
 
 $(document.body).on('click', '.compile', function (e) {
   e.preventDefault();
+
+
   if ($('.compiled').length) {
     $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile to: ' + compileTo);
     $('.highlight').show();
@@ -40,7 +57,10 @@ $(document.body).on('click', '.compile', function (e) {
     $(this).removeClass('btn-primary').addClass('btn-danger-fix').text('Original');
     $('.highlight').hide();
     compilr.compileAndShow();
+
   }
+
+
 });
 
 $('#js-repo-pjax-container').on('DOMNodeInserted', function (e) {
@@ -53,6 +73,12 @@ $('#js-repo-pjax-container').on('DOMNodeInserted', function (e) {
       compilr.init();
     }
   }
+
+  if (window.location.href.indexOf('gist') > -1) {
+    isGist = true;
+    compilr.init();
+  }
+
 });
 
 //When you open a page direct
@@ -63,3 +89,4 @@ if (window.location.href.indexOf(".coffee") > -1) {
   compileTo = 'coffee';
   compilr.init();
 }
+
