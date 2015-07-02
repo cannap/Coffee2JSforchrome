@@ -32,7 +32,7 @@ compilr.compileAndShow = function () {
 $(document.body).on('click', '.compile', function (e) {
   e.preventDefault();
   if ($('.compiled').length) {
-    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile: to' + compileTo);
+    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile: to ' + compileTo);
     $('.highlight').show();
     $('.compiled').remove();
   } else {
