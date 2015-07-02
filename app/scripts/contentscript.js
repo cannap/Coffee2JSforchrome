@@ -55,7 +55,6 @@ $('#js-repo-pjax-container').on('DOMNodeInserted', function (e) {
   }
 });
 
-
 //When you open a page direct
 if (window.location.href.indexOf(".coffee") > -1) {
   compileTo = 'js';
