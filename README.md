@@ -12,6 +12,13 @@ grunt debug
 ###Packing:
 grunt build
 
+
+##TODO:
+- Remove jQuery
+- Add JS 2 coffee support
+- Add gist support
+
+
 ###Credits:
 - https://github.com/yeoman/generator-chrome-extension
 - http://coffeescript.org/
