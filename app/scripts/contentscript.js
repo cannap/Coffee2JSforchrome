@@ -64,6 +64,3 @@ if (window.location.href.indexOf(".coffee") > -1) {
   compileTo = 'coffee';
   compilr.init();
 }
-
-
-

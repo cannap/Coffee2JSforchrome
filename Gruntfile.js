@@ -282,7 +282,7 @@ module.exports = function (grunt) {
         options: {
           archive: function() {
             var manifest = grunt.file.readJSON('app/manifest.json');
-            return 'package/coffee2js for github-' + manifest.version + '.zip';
+            return 'package/compilr for github-' + manifest.version + '.zip';
           }
         },
         files: [{
