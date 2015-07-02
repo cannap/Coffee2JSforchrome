@@ -1,37 +1,57 @@
 'use strict';
+//file wide
+var language;
+var compilr = {};
 
-var coffee2js = {};
 
-//Init
-coffee2js.init = function () {
-  $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary tojs">Show JS</a>');
+compilr.init = function (lang) {
+  language = lang;
+  switch (lang) {
+    case 'coffee':
+      $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary compile">Compile to: ' + language + '</a>');
+      break;
+    case('js'):
+      $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary compile">Compile to: ' + language.toUpperCase() + '</a>');
+      break;
+    default:
+      return
+  }
+
 };
 
-coffee2js.compileAndShow = function () {
-  var rawLink = $('#raw-url').attr('href');
-
+compilr.compileAndShow = function (lang) {
+  var rawLink = $('#raw-url').attr('href'),
+    source;
   $.get(rawLink, function (data) {
-    var jsSource = CoffeeScript.compile(data,
-      {bare: true}
-    );
-
-    var source = Prism.highlight(jsSource, Prism.languages.javascript);
-    $('<div class="coffee2JS"><pre class="line-numbers" data-start="-5"><code>' + source + '</code></pre></div>').insertBefore('.highlight');
+    if (lang === 'coffee') {
+      source = CoffeeScript.compile(data,
+        {
+          bare: true
+        }
+      );
+      source = Prism.highlight(source, Prism.languages.javascript);
+    } else {
+      source = js2coffee.build(data).code;
+      source = Prism.highlight(source, Prism.languages.coffeescript);
+    }
+    $('<div class="compiled"><pre class="line-numbers" data-start="-5"><code>' + source + '</code></pre></div>').insertBefore('.highlight');
   });
 
 };
 
 
-$(document.body).on('click', '.tojs', function (e) {
+$(document.body).on('click', '.compile', function (e) {
   e.preventDefault();
-  if ($('.coffee2JS').length) {
-    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Show JS');
+  if ($('.compiled').length) {
+
+    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile to: ' + language);
     $('.highlight').show();
-    $('.coffee2JS').remove();
+    $('.compiled').remove();
   } else {
-    $(this).removeClass('btn-primary').addClass('btn-danger-fix').text('Hide JS');
+
+    $(this).removeClass('btn-primary').addClass('btn-danger-fix').text('Original');
     $('.highlight').hide();
-    coffee2js.compileAndShow();
+    compilr.compileAndShow(language);
   }
 });
 
@@ -39,13 +59,19 @@ $(document.body).on('click', '.tojs', function (e) {
 $('#js-repo-pjax-container').on('DOMNodeInserted', function (e) {
   if ($(e.target).is('.file')) {
     if (window.location.href.indexOf(".coffee") > -1) {
-      coffee2js.init();
+      compilr.init('coffee');
+    } else if (window.location.href.indexOf(".js") > -1) {
+      compilr.init('js');
     }
   }
 });
 
-
+//When you open a page direct
 if (window.location.href.indexOf(".coffee") > -1) {
-  coffee2js.init();
+  compilr.init('coffee');
+} else if (window.location.href.indexOf(".js") > -1) {
+  compilr.init('js');
 }
+
+
 

@@ -13,6 +13,7 @@
   ],
   "background": {
     "scripts": [
+      "scripts/background.js",
       "scripts/chromereload.js"
     ]
   },
@@ -25,6 +26,7 @@
         "scripts/jquery.js",
         "scripts/highlight.js",
         "scripts/coffee-script.js",
+        "scripts/js2coffee.js",
         "scripts/contentscript.js"
       ],
       "css": [
