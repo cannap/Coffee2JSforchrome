@@ -1,12 +1,11 @@
 'use strict';
 //file wide
-var language;
+var compileTo;
 var compilr = {};
 
 
 compilr.init = function () {
-      $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary compile">Compile</a>');
-
+  $('.file-actions .btn-group').append('<a href="#" class="btn btn-sm btn-primary compile">Compile to: ' + compileTo + '</a>');
 };
 
 compilr.compileAndShow = function () {
@@ -14,8 +13,7 @@ compilr.compileAndShow = function () {
     source;
   $.get(rawLink, function (data) {
 
-
-    if (language === 'coffee') {
+    if (compileTo === 'js') {
       source = CoffeeScript.compile(data,
         {
           bare: true
@@ -28,45 +26,43 @@ compilr.compileAndShow = function () {
     }
     $('<div class="compiled"><pre class="line-numbers" data-start="-5"><code>' + source + '</code></pre></div>').insertBefore('.highlight');
   });
-
 };
 
 
 $(document.body).on('click', '.compile', function (e) {
   e.preventDefault();
   if ($('.compiled').length) {
-
-    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile');
+    $(this).removeClass('btn-danger-fix').addClass('btn-primary').text('Compile: to' + compileTo);
     $('.highlight').show();
     $('.compiled').remove();
   } else {
 
     $(this).removeClass('btn-primary').addClass('btn-danger-fix').text('Original');
     $('.highlight').hide();
-    compilr.compileAndShow(language);
+    compilr.compileAndShow();
   }
 });
-
 
 $('#js-repo-pjax-container').on('DOMNodeInserted', function (e) {
   if ($(e.target).is('.file')) {
     if (window.location.href.indexOf(".coffee") > -1) {
-      language = 'coffee';
+      compileTo = 'js';
       compilr.init('coffee');
     } else if (window.location.href.indexOf(".js") > -1) {
-      language = 'js';
-      compilr.init('js');
+      compileTo = 'coffee';
+      compilr.init();
     }
   }
 });
 
+
 //When you open a page direct
 if (window.location.href.indexOf(".coffee") > -1) {
-  language = 'coffee';
-  compilr.init('js');
+  compileTo = 'js';
+  compilr.init();
 } else if (window.location.href.indexOf(".js") > -1) {
-  language = 'js';
-  compilr.init('coffee');
+  compileTo = 'coffee';
+  compilr.init();
 }
 
 
